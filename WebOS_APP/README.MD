@@ -18,7 +18,7 @@
 <pre><code>ares-package fire</code></pre>
 
 * Setup Device (Raspberry Pi3)
-<pre><code>ares-setup device -a pi3 -i "username=root" -i "ip=000.000.000.000" -i "port=22"</code></pre>
+<pre><code>ares-setup device -a pi3 -i "username=root" -i "ip=###.###.###.###" -i "port=22"</code></pre>
 
 * Install
 <pre><code>ares-install com.bclass.app_0.1.0_all.ipk -d pi3 </code></pre>
