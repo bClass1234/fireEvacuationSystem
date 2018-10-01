@@ -10,18 +10,20 @@
     <style type="text/css">
     body{
         position: relative;
+        background-color: #ffffff;
     }
 
     #header{
         height: 6vh;
-        width: 99% + 7px;
+        width: 99%;
         border:1px solid black;
+        background-color: #ddd;
         margin-bottom:10px;
         vertical-align: middle;
     }
 
     .container{
-        height:80vh;
+        height:82vh;
     }
     #mapInfo{
         float: left;
@@ -72,13 +74,27 @@
         
     }
     .emergency{
-        background-color: #ff0000b4;
+        background-color: #ff0000;
         position: absolute;
         text-align: center;
         vertical-align: middle;
         width:100%;
         height: 5em;
-        z-index: 100;
+        z-index: 500;
+    }
+    .room {
+        background-color :#00aaff;
+        display: inline-block;
+        width: 200px;
+        height: 5vh;
+        margin-right: 10px;
+    }
+    #safe {
+        background-color :#00aa00;
+        display: inline-block;
+        width: 200px;
+        height: 5vh;
+        margin-right: 10px;
     }
 
         </style>
@@ -118,7 +134,7 @@
             <span id="notice">시작 지점을 설정해주십시오.</span>
         </div>
 
-        <audio id="myAudio" hidden autoplay>
+        <audio id="myAudio" hidden>
                 <source src="/siren" type="audio/mpeg">
             </audio>
 
@@ -129,8 +145,11 @@
 
     <script>
         $('.emergency').hide(); //비상상황 숨겨놓기
+        // $('#myAudio').get(0).pause();
 
         $(document).ready(function(){
+
+        var startroom;   
 
             $('#safe').click(function(){
                 $.ajax({
@@ -139,11 +158,16 @@
                     data:{safe:$(this).attr('id')},
                     dataType:'text',
                     success : function(data){
-                        $('.emergency').hide();
-                        audio.pause();
+                        $("#imgPath").empty();
+                        $(".emergency").hide();
+                        $('#myAudio').get(0).pause();
+                        $("#header").html('<h1>'+startroom+'</h1>').css("background-color: #ddd;");
+                        
                     }
                 });
             });
+
+            
         
             
 
@@ -161,7 +185,12 @@
                     $.ajax({
                         type:"POST",
                         url : "/startNode",
-                        data:{startNode : roomId}
+                        data:{startNode : roomId},
+                        success: function(data){
+                            console.log(data);
+                            startroom = data;
+                            $('#header').html('<h1>'+data+'</h1>');
+                        }
                     })
                     var SetTime = 10;// 최초 설정 시간
                     tid = setInterval(function msg_time() {	// 1초씩 카운트
@@ -206,7 +235,6 @@
                     success : function(data){
                         
                         var data = JSON.parse(data);
-                        console.log(data);
 
                         
 
@@ -252,7 +280,7 @@
                 
             } // end of ajaxSensor
 
-
+        
             function ajaxImg(){
                 setInterval(function(){ 
                 $.ajax({
@@ -262,7 +290,8 @@
                     dataType:'json',
                     success : function(data){
                         if(data==null){
-                            $(".emergency").hide();
+                            
+                            
                             return;
                         } 
                         
@@ -292,17 +321,15 @@
             
             function emerge(){
                 $('.emergency').show();
-
-            
+                console.log('이머지?');
 
                 sound();
                 
-                
-
-                $('#header').html('');
-                    setInterval(function(){
-                        $('.emergency').fadeToggle();
-                        }, 2000);
+                $('#header').html('<h1>아래 경로에 따라 안전하게 대피하세요.</h1>').css("background: #00FF00;")
+                setTimeout(function(){
+                $('.emergency').fadeToggle();
+                },500);
+                        
                 }
                 
             function sound(){

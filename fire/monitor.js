@@ -68,6 +68,7 @@ app.post('/sensor', (req,res) => {
 app.post('/safe',(req,res)=>{
     console.log(req.body.safe);
     var safe = req.body.safe;
+    flag = false;
     fire.reset();
     res.send(safe);
 })
@@ -89,6 +90,7 @@ var startNodeName = 'officeroom1'; // 폼데이터로 받아오기
 app.post('/startNode', (req,res) => {
    startNodeName = req.body.startNode;
    console.log("시작 지점 설정 : "+startNodeName);
+   res.send(startNodeName);
 });
 
 // Map 정보 읽은 Json 파일 읽은 후 파싱
@@ -183,7 +185,7 @@ app.use('/Img', function (req,res,next){
 
 // Img 경로 응답
 app.post('/Img',function(req,res){
-    if(flag==false){ } else {
+    if(flag==false){ res.end(null) } else {
     // console.log("실제 이미지 라우팅")
     for (var i = 0 ; i<evac.path.length-1; i++){
         myMethod(evac.path[i],evac.path[i+1]);
