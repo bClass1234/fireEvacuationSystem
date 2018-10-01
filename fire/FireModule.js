@@ -13,10 +13,14 @@ var disNode = new Array();// 비활성화 노드 배열
 var mapData;
 
 function reset(){
+  var route = new Graph();
+  var exitArr = new Array();
+  var disNode = new Array();
+
   for(var i = 0 ; i<mapData.length ; i++){
     var obj = {};
     for(var j = 0 ;j<mapData[i].connected.length;j++){
-      var node = map[i].connected[j];
+      var node = mapData[i].connected[j];
       var name ={node}.node.node;
       var dist ={node}.node.dist;
       obj[name] = dist;
