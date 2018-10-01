@@ -333,6 +333,8 @@
   - MongoDB object modeling tool.
   
   
+  
+  
 # MongoDB Guide
 
 ## MongoDB
@@ -348,44 +350,38 @@
 
 - Create forlder for database in C:/data 
 
-<pre><code>
-mkdir C:/data/db
+<pre><code>mkdir C:/data/db
 </code></pre>
 
 - Run mongod.exe. Ensure mongod.exe is running before execute Mongo Shell
 
-<pre><code>
-mongod.exe
+<pre><code>mongod.exe
 </code></pre>
 
  - Execute MongoDB Shell
 
-<pre><code>
-mongo.exe
+<pre><code>mongo.exe
 </code></pre>
 
 3. Create Database 
 
 - Create fireEvacuationSystem Database
 
-<pre><code>
-use fireEvacuationSystem
+<pre><code>use fireEvacuationSystem
 </code></pre>
 
 4. Create Collection
 
 - Create nodes Collection
 
-<pre><code>
-db.createCollection("nodes")
+<pre><code>db.createCollection("nodes")
 </code></pre>
 
 5. Create Document
 
 - Create Document which is followed by nodes Schema.
 
-<pre><code>
-nodes {
+<pre><code>nodes {
     name : 'string',
     ip : 'string',
     category : 'string',
@@ -400,8 +396,7 @@ nodes {
 } 
 </code></pre>
 
-<pre><code>
-db.nodes.insert([
+<pre><code>db.nodes.insert([
 	// {"key" : "value"}
 ]);
 </code></pre>
