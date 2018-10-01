@@ -128,12 +128,14 @@ Return      : 	void
   - winston
   - winston-daily-rotate-file
 
-- Description : Generate log file daily via winston and winston-daily-rotate-file.
-	      created app_YYYY-MM-DD.log/exception_YYYY-MM-DD.log file in logs directory.
-	      info and higher level logs are recorded with their log level.
-	      Max size of log file is 50MB. If the size is overflowed, make another files(MAX: 100).
+- Description
+  - Generate log file daily via winston and winston-daily-rotate-file.
+  - createdapp_YYYY-MM-DD.log/exception_YYYY-MM-DD.log file in logs directory.
+  - info and higher level logs are recorded with their log level.
+  - Max size of log file is 50MB. If the size is overflowed, make another files(MAX: 100).
 
-- log level : debug:0 > info:1 > notice:2 > warning:3 > error:4 > crit:5 > alert:6 > emerg:7
+- log level
+  - debug:0 > info:1 > notice:2 > warning:3 > error:4 > crit:5 > alert:6 > emerg:7
 
 
 
