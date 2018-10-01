@@ -34,8 +34,8 @@
   - A0 - Sensor node(Arduino UNO) A1
 
 * Temp. & Humi. sensor 
-  - + - Sensor node(Arduino UNO) 5v
-  - - - Sensor node(Arduino UNO) GND
+  - '+' - Sensor node(Arduino UNO) 5v
+  - '-' - Sensor node(Arduino UNO) GND
   - SCL - Sensor node(Arduino UNO) A5
   - SDA - Sensor node(Arduino UNO) A6
 
