@@ -3,6 +3,7 @@ var express = require('express');
 var fs = require('fs');
 var request = require('request');
 var app = express();
+
 const { spawn } = require('child_process');
 
 
@@ -29,12 +30,12 @@ sensorLog.getMapData();
 
 // root path 설정
 app.get('/', function(req,res){
-    res.sendFile(__dirname + "/public/sensor.html");
-});
-
-app.get('/main', function(req,res){
     res.sendFile(__dirname + "/public/main.html");
 });
+
+app.get('/form',function(req,res){
+    res.sendFile(__dirname + "/public/form.html");
+})
 
 
 // 기본 지도맵 생성
@@ -58,10 +59,23 @@ app.post('/sensor', (req,res) => {
     var sensor = JSON.parse(body).node;
 
     
-    
     console.log("센서 응답성공!");
     sensorLog.set(sensor);
     res.json(sensorData);
+    });
+});
+
+app.post('/safe',(req,res)=>{
+    console.log(req.body.safe);
+    var safe = req.body.safe;
+    fire.reset();
+    res.send(safe);
+})
+
+app.get('/siren',(req,res)=>{
+    console.log("사이렌");
+    fs.readFile('./sound/siren.mp3', (err,data) => {
+        res.end(data);
     });
 });
 

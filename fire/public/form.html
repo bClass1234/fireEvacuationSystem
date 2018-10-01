@@ -15,14 +15,19 @@
         <button>ajaxsend</button>
         </form>
         
-
+        <audio id="myAudio" hidden autoplay>
+            <source src="/siren" type="audio/mpeg">
+        </audio>
+    
         <div class="result"></div>
-        
+
     </body>
 
     <script>
         $(document).ready(function(){
             //submit form
+
+            
             $("#ajaxtest").submit(function(event){
                 
                 event.preventDefault();
@@ -59,6 +64,21 @@
 
             function resetData(){
                 $('input[name="email"]').val("");
+            }
+
+            sound();
+
+            function sound(){
+                $.ajax({
+                    type:"GET",
+                    contentType : "application/json",
+                    url : "/siren",
+                    success: function(data){
+                        document.getElementById('myAudio').play();
+                     }
+                       
+                    
+                });
             }
 
         });

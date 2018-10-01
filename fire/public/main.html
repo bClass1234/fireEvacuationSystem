@@ -85,14 +85,15 @@
     </head>
 
     <body>
-        
         <div class="emergency">
             <h1>비상상황</h1>
         </div>
         
+        
         <div id="header">
             <h1>Fire Evacuation System</h1>
         </div>
+
         <div class="container clearfix">
             <div id="mapInfo">
                 <!-- 경로 출력 -->
@@ -107,16 +108,19 @@
         </div>
 
         <div id="footer">
-            <button id="restroom">RESTROOM</button>
-            <button id="officeroom1">OFFICEROOM1</button>
-            <button id="officeroom2">OFFICEROOM2</button>
-            <button id="ATMCorner">ATM CORNER</button>
+            <button id="restroom" class="room">RESTROOM</button>
+            <button id="officeroom1" class="room">OFFICEROOM1</button>
+            <button id="officeroom2" class="room">OFFICEROOM2</button>
+            <button id="ATMCorner" class="room">ATM CORNER</button>
             
             <button id="safe" style="float:right">상황 해제</button>
 
             <span id="notice">시작 지점을 설정해주십시오.</span>
         </div>
 
+        <audio id="myAudio" hidden autoplay>
+                <source src="/siren" type="audio/mpeg">
+            </audio>
 
 
             
@@ -124,13 +128,27 @@
 
 
     <script>
+        $('.emergency').hide(); //비상상황 숨겨놓기
+
         $(document).ready(function(){
 
-        $('.emergency').hide();
-
+            $('#safe').click(function(){
+                $.ajax({
+                    type:"POST",
+                    url:"/safe",
+                    data:{safe:$(this).attr('id')},
+                    dataType:'text',
+                    success : function(data){
+                        $('.emergency').hide();
+                        audio.pause();
+                    }
+                });
+            });
+        
+            
 
             $(function(){
-                $('button').click(function(){
+                $('.room').click(function(){
                     
                     var roomId = $(this).attr('id');
                     if(roomId==null){
@@ -274,11 +292,30 @@
             
             function emerge(){
                 $('.emergency').show();
-                $('#header').hide();
+
+            
+
+                sound();
+                
+                
+
+                $('#header').html('');
                     setInterval(function(){
                         $('.emergency').fadeToggle();
                         }, 2000);
                 }
+                
+            function sound(){
+                $.ajax({
+                    type:"GET",
+                    contentType : "application/json",
+                    url : "/siren",
+                    success: function(data){
+                        document.getElementById('myAudio').play();
+                     }
+                       
+                });
+            }
 
         });
      </script>
