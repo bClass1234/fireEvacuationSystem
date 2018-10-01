@@ -1,0 +1,1 @@
+ares-launch com.bclass.app -d %1

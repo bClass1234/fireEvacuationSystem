@@ -1,0 +1,10 @@
+{
+  "id": "com.bclass.app",
+  "version": "0.1.0",
+  "vendor": "BClass",
+  "type": "web",
+  "main": "index.html",
+  "title": "Fire Evacuation",
+  "icon": "icon.png",
+  "largeIcon": "largeIcon.png"
+}

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            hello
+        </title>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style type="text/css">
+    body{
+        position: relative;
+    }
+
+    #header{
+        height: 6vh;
+        width: 99% + 7px;
+        border:1px solid black;
+        margin-bottom:10px;
+        vertical-align: middle;
+    }
+
+    .container{
+        height:80vh;
+    }
+    #mapInfo{
+        float: left;
+        height:100%;
+        width:69%;
+        border:1px solid black;
+        position: relative;
+    }
+    #sensorInfo{
+        float: left;
+        height:100%;
+        width:30%;
+        border:1px solid black;
+        margin-left:7px;
+    }
+    .sensor{
+        float:left;
+        margin:1px;
+        width:49%;
+        border:1px solid black;
+        min-height: 5em;
+    }
+    
+    .clearfix::after{
+        content:"";
+        clear:both;
+        display: hidden;
+    }
+    table, th, td{
+        background-color: #ccc;
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th {
+        background-color: #00aaff;
+    }
+    #footer{
+        height:6vh;
+        width:99%;
+        border:1px solid black;
+        padding:5px;
+        margin-top:10px;
+    }
+    h1{
+      /* text-align: center; */
+      letter-spacing: 0px;
+      line-height: 0;
+        
+    }
+    .emergency{
+        background-color: #ff0000b4;
+        position: absolute;
+        text-align: center;
+        vertical-align: middle;
+        width:100%;
+        height: 5em;
+        z-index: 100;
+    }
+
+        </style>
+    </head>
+
+    <body>
+        
+        <div class="emergency">
+            <h1>비상상황</h1>
+        </div>
+        
+        <div id="header">
+            <h1>Fire Evacuation System</h1>
+        </div>
+        <div class="container clearfix">
+            <div id="mapInfo">
+                <!-- 경로 출력 -->
+                <div id="imgPath"><!--imgPath--></div>
+
+                <!-- 전체 맵 -->
+                <img src="/run" style="width:100%; ">
+            </div>
+            <div id="sensorInfo" class="clearfix">
+                
+            </div>
+        </div>
+
+        <div id="footer">
+            <button id="restroom">RESTROOM</button>
+            <button id="officeroom1">OFFICEROOM1</button>
+            <button id="officeroom2">OFFICEROOM2</button>
+            <button id="ATMCorner">ATM CORNER</button>
+            
+            <button id="safe" style="float:right">상황 해제</button>
+
+            <span id="notice">시작 지점을 설정해주십시오.</span>
+        </div>
+
+
+
+            
+    </body>
+
+
+    <script>
+        $(document).ready(function(){
+
+        $('.emergency').hide();
+
+
+            $(function(){
+                $('button').click(function(){
+                    
+                    var roomId = $(this).attr('id');
+                    if(roomId==null){
+                        return;
+                    }
+                    console.log(roomId);
+
+                    
+                    
+                    $.ajax({
+                        type:"POST",
+                        url : "/startNode",
+                        data:{startNode : roomId}
+                    })
+                    var SetTime = 10;// 최초 설정 시간
+                    tid = setInterval(function msg_time() {	// 1초씩 카운트
+                        
+                        $('button').prop('disabled',true);
+                            m = (SetTime % 60) + "초";	// 남은 시간 계산
+                            
+                            var msg = "재설정 가능 대기시간이 <font color='red'>" + m + "</font> 남았습니다.";
+                            
+                            $('#notice').html(msg);		// div 영역에 보여줌 
+                                    
+                            SetTime--;					// 1초씩 감소
+                            
+                            if (SetTime < 0) {
+                                $('button').prop('disabled', false);
+                                var msgEnd = "시작 지점 재설정 가능합니다.";
+                                $('#notice').html(msgEnd);
+                                clearInterval(tid);		// 타이머 해제
+                            }
+                        },1000);
+                });
+            });
+        
+            
+            
+            // 센서값 받아오기
+                ajaxSensor();
+
+            // 이미지 경로 받아오기
+                ajaxImg();
+            
+            function ajaxSensor(){
+                setInterval(function(){ 
+                    $.ajax({
+                    type:"POST",
+                    contentType : "application/json",
+                    url : "/sensor",
+                    dataType:'json',
+                    beforeSend:function(){
+                        $("#sensorInfo").empty();
+                    },
+                    success : function(data){
+                        
+                        var data = JSON.parse(data);
+                        console.log(data);
+
+                        
+
+                        
+                        for(i=0;i<data.length;i++){
+                        var name = data[i].name;
+                        var flame = data[i].flameSensor;
+                        var smoke = data[i].smokeSensor;
+                        var temp = data[i].temperatureSensor;
+
+                        var template = '<table id=' + name + ' class="sensor">'
+                                        +'<tr>'
+                                            +'<th> name </th>'
+                                            +'<th>' + name + '</th>'
+                                        +'</tr>'
+                                        +'<tr>' 
+                                            +'<td style="width:40%;"> flame </td>'
+                                            +'<td style="width:60%;">' +flame + '</td>'
+                                        +'</tr>'
+                                        +'<tr>' 
+                                            +'<td style="width:40%;"> smoke </td>'
+                                            +'<td style="width:60%;">' +smoke + '</td>'
+                                        +'</tr>'
+                                        +'<tr>' 
+                                            +'<td style="width:40%;"> temp </td>'
+                                            +'<td style="width:60%;">' +temp + '</td>'
+                                        +'</tr>'
+                                    +'</table>'
+
+                        $("#sensorInfo").append(template);
+                        }
+                        
+
+                        
+                    
+                    },
+                    error : function(e){
+                        alert("ERROR!")
+                        console.log("error : " + e);
+                    }
+                });
+            }, 8000);
+                
+            } // end of ajaxSensor
+
+
+            function ajaxImg(){
+                setInterval(function(){ 
+                $.ajax({
+                    type:"POST",
+                    contentType : "application/json",
+                    url : "/Img",
+                    dataType:'json',
+                    success : function(data){
+                        if(data==null){
+                            $(".emergency").hide();
+                            return;
+                        } 
+                        
+                        emerge(); // 비상상황 출력
+                        
+                        console.log(data.iPath);
+                        $("#imgPath").empty();
+                        for(var i=0;i<data.iPath.length;i++){
+                            console.log(data.iPath[i]);
+
+                            var temp = "<img src='/"+data.iPath[i]+"' style='z-index:"+i+"; position:absolute; width:100%; top:0px; left:0px;'/>";
+                            
+                            console.log(temp);
+                            
+                            $("#imgPath").append(temp);
+                        }
+                        
+                    },
+                    error : function(e){
+                        //alert("ERROR!")
+                        console.log("error : " + e);
+                    }
+                });
+            }, 8000);
+            } // end of ajaxImg
+
+            
+            function emerge(){
+                $('.emergency').show();
+                $('#header').hide();
+                    setInterval(function(){
+                        $('.emergency').fadeToggle();
+                        }, 2000);
+                }
+
+        });
+     </script>
+     
+
+</html>

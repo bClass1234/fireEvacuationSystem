@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            hello
+        </title>
+        <meta charset="utf-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+
+    <body>
+       <!-- <form id="ajaxtest">
+        email : <input type="text" name="email"> -->
+        <!-- <input type="submit"> -->
+        <!-- <button>ajaxsend</button>
+        </form> -->
+        
+        
+            <input type="text" id="startNode">
+            <button id="start">시작노드 입력</button>
+        
+
+        <!-- <div id="ajaxtest">
+            제발점 떠라 : <div class="result"></div>
+        </div>
+        <div id="test"></div> -->
+        <!-- data : JSON.stringify(formData), -->
+
+
+            <div>
+                <!-- 경로 출력 -->
+                <div style="position: absolute;">
+                    
+                        <div id="imgPath"><!--imgPath--></div>
+                    
+                </div>
+
+                <!-- 전체 맵 -->
+                <img src="/run" style="width:100%; height: 100%;">
+            </div>
+    </body>
+
+
+    <script>
+        $(document).ready(function(){
+
+            $('#start').click(function(){
+                $.ajax({
+                    type:"POST",
+                    url : "/startNode",
+                    data:{startNode : $("#startNode").val()}
+                })
+            });
+            
+            // 센서값 받아오기
+            var timeOutId = 0;
+                timeOutId = setTimeout(ajaxSensor(),1000);
+
+            // 이미지 경로 받아오기
+                // ajaxImg();
+            
+            function ajaxSensor(){
+                    $.ajax({
+                    type:"POST",
+                    contentType : "application/json",
+                    url : "/sensor",
+                    dataType:'json',
+                    success : function(data){
+                        if(data==null){
+                            console.log("센서요청 안옴");
+                            timeOutId = setTimeout(ajaxSensor(), 1000);
+                        } else {
+                        console.log(JSON.stringify(data));
+                        var data = JSON.parse(data);
+                        console.log(data);
+                        
+                        for(i=0;i<data.length;i++){
+                        var name = data[i].name;
+                        var flame = data[i].flameSensor;
+                        var smoke = data[i].smokeSensor;
+                        var temp = data[i].temperatureSensor;
+
+                        console.log(name);
+                        console.log(temp);
+                        console.log('센서요청옴');
+                        clearTimeout(timeOutId);
+                            }
+                        
+                        }
+
+                        
+                        // var humidity = data.node.humidity;
+                        // var flameD = data.node.flameD;
+                        // var flameA = data.node.flameA;
+                        // var gas = data.node.gas;
+
+                        // var template = '<p> ip : ' + ip + '</p>'
+                        //             + '<p> temp : ' + temp + '</p>'
+                        //             + '<p> humidity : ' + humidity + '</p>'
+                        //             + '<p> flameD : ' + flameD + '</p>'
+                        //             + '<p> flameA : ' + flameA + '</p>'
+                        //             + '<p> gas : ' + gas + '</p>';
+
+                        // 
+                    
+                    },
+                    error : function(e){
+                        alert("ERROR!")
+                        console.log("error : " + e);
+                    }
+                });
+                
+            } // end of ajaxSensor
+
+
+            function ajaxImg(){
+                setInterval(function(){ 
+                $.ajax({
+                    type:"POST",
+                    contentType : "application/json",
+                    url : "/Img",
+                    dataType:'json',
+                    success : function(data){
+                        
+                        console.log(data.iPath);
+                        $("#imgPath").empty();
+                        for(var i=0;i<data.iPath.length;i++){
+                            console.log(data.iPath[i]);
+
+                            var temp = "<img src=/"+data.iPath[i]+" style='z-index:"+i+"; position:absolute;'/>";
+                            
+                            console.log(temp);
+                            
+                            $("#imgPath").append(temp);
+                        }
+                        // $.ajax({
+                        //     type:"POST",
+                        //     contentType : "application/json",
+                        //     url : d
+                        // });
+                    },
+                    error : function(e){
+                        //alert("ERROR!")
+                        console.log("error : " + e);
+                    }
+                });
+            }, 9000);
+            } // end of ajaxImg
+
+
+        });
+     </script>
+     
+
+</html>

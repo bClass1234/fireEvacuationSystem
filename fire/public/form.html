@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            hello
+        </title>
+        <meta charset="utf-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+
+    <body>
+        <form id="ajaxtest">
+        email : <input type="text" name="email">
+        <!-- <input type="submit"> -->
+        <button>ajaxsend</button>
+        </form>
+        
+
+        <div class="result"></div>
+        
+    </body>
+
+    <script>
+        $(document).ready(function(){
+            //submit form
+            $("#ajaxtest").submit(function(event){
+                
+                event.preventDefault();
+
+                ajaxPost();
+            });
+
+            function ajaxPost(){
+
+                var formData = {
+                    email : $('input[name]').val()
+                }
+
+                $.ajax({
+                    type:"POST",
+                    contentType : "application/json",
+                    url : "/ajax_send_email",
+                    data : JSON.stringify(formData),
+                    dataType:'json',
+                    success : function(responseText){
+                        // var result = JSON.stringify(responseText);
+                        // var result2 = JSON.parse(result);
+                        $(".result").html(responseText.email);
+                    
+                    },
+                    error : function(e){
+                        alret("ERROR!")
+                        console.log("error : " + e);
+                    }
+                });
+
+                resetData();
+            }
+
+            function resetData(){
+                $('input[name="email"]').val("");
+            }
+
+        });
+     </script>
+     
+
+</html>
