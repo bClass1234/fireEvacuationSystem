@@ -59,6 +59,9 @@ Note : Linux driver is not supported for WeMos D1 R1.
   - source file name:  SensorNode.ino
   - Board : Ardunio UNO 
 
+* Import library for Temparature& Humidity Sensor 
+  - Add to library in Arduino IDE : AM2320.zip
+
 * Communication node compiling 
   - source file name: CommNode.ino
   - Board : WeMos D1(Retired) 
