@@ -68,11 +68,10 @@ Note : Linux driver is not supported for WeMos D1 R1.
 
 before upload, Some variable have to be changed. 
 
-[code]
-const char* ssid = "your wifi ssid ";
+
+<pre><code>const char* ssid = "your wifi ssid ";
 const char* password = "your wifi password";
-String nodeName = "node name(location name recommended)";
-[/code]
+String nodeName = "node name(location name recommended)";</code></pre>
 
 * CAUTION: before uploading, ensure disconnect TX, RX between sensor node and communication node. It may occur unexpedted compiling result. 
 
