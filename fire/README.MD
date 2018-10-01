@@ -21,8 +21,8 @@
 	       ]
 
 ### fire.reset()
-- Description :
-- Return      : void
+- Description : 	Return from evacuation state to normal state and reload map data   
+- Return      : 	void
 
 ### fire.checkExit(startNodeName)
 - Property    : 	startNodeName
@@ -47,7 +47,7 @@
 ### fire.reBuild(reBuildNodeName)
 - Property    : 	reBuildNodeName
 - Description : 	rebuild MapData and delete nodes except delivered node(s).
-Type        : 	String
+Type        :	String
 Return      : 	void
 
 
