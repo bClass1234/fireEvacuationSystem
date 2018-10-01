@@ -7,9 +7,12 @@
  - node-dijkstra
 
 ### fire.set(map)
+
+- Description
+  - extract entire Map Data's node information and initialize Graph object.
+  - If exit node, save at data pool.
+  
 - Property    : 	map
-- Description : 	extract entire Map Data's node information and initialize Graph object.
-              	If exit node, save at data pool
 - Type        : 	JSON Array
 - Return      : 	void
 
@@ -21,34 +24,44 @@
 	       ]
 
 ### fire.reset()
-- Description : 	Return from evacuation state to normal state and reload map data   
+
+- Description
+  - Return from evacuation state to normal state and reload map data.
+  
 - Return      : 	void
 
 ### fire.checkExit(startNodeName)
-- Property    : 	startNodeName
-- Description : 	Return exit location and distnace from received Node.
-	  	if there is no avaiable path to exit, return message "there is no path".
 
+- Description
+  - Return exit location and distnace from received Node.
+  - if there is no avaiable path to exit, return message "there is no path".
+  
+- Property    : 	startNodeName
 - Type        : 	String
 - Return      : 	JsonObject or String
 
 
 
 ### fire.removeNode(removeNodeName)
-- Property    : 	removeNodeName
-- Description : 	Delete saved MapData node.
-	  	Save deleted node in data pool
 
+- Description
+  - Delete saved MapData node.
+  - Save deleted node in data pool.
+  
+- Property    : 	removeNodeName
 - Type        : 	String
 - Return      : 	void
 
 
 
+
 ### fire.reBuild(reBuildNodeName)
+- Description
+  - rebuild MapData and delete nodes except delivered node(s).
+  
 - Property    : 	reBuildNodeName
-- Description : 	rebuild MapData and delete nodes except delivered node(s).
-Type        :	String
-Return      : 	void
+- Type        :		String
+- Return      : 	void
 
 
 ## SensorLog.js
@@ -61,62 +74,85 @@ Return      : 	void
 
 
 ### sensorLog.set(sensor)
+
+- Description
+  - loggin sensor data to file and database.
+  
 - Property    : 	sensor
-- Description : 	loggin sensor data to file and database
 - Type        : 	JSON Object
 - Return      : 	void
 
 
 ### sensorLog.getAllSeverityLevel()
-- Description : 	Call findfAllSeverityLevel in
-		nodesCollection.js and return file name
+
+- Description
+  - Call findfAllSeverityLevel in
+  - nodesCollection.js and return file name
+  
 - Return      : 	String
 
 
 ### sensorLog.getMapData()
-- Description : 	Call findAllConnected in nodesCollection.js
-		            and return file name.
+
+- Description
+  - Call findAllConnected in nodesCollection.js and return file name.
+  
 - Return      :   String
 
 
 ### sensorLog.setSeverityLevel()
-- Description : 	Initialize assessed severity level at interated
-		            sensor information in database
+
+- Description
+  - Initialize assessed severity level at interated sensor information in database.
+  
 - Type        : 	void
 - Return      : 	String
 
 
 ### sensorLog.deleteLogFile()
+
 - Description : 	Delete old logs(1 week) if exist.
+
 - Return      : 	void
 
 
 
 
 ### sensorLog.sevrityLevelClac(sensor)
+
+- Description
+  - calculate and return severity level via sensor data.
+  
 - Property    : 	sensor
-- Description : 	calculate and return severity level via sensor data
 - Type        : 	JSON Object
 - Return      : 	Number
 
 
 ### sensorLog.timeStampFormat()
-- Description :  return current time with designed format
-                ('YYYY-MM-DD HH:mm:ss.SSS ZZ') - 24H
+
+- Description
+  - return current time with designed format ('YYYY-MM-DD HH:mm:ss.SSS ZZ') - 24H.
+  
 - Return      : 	String
 
 
 
 ### sensorLog.sensorLog(sensor,sLevel)
+
+- Description
+  - called from set() function. call info() function from logger.js.
+  
 - Property    : 	sensor, sLevel
-- Description : 	called from set() function. call info() function from logger.js
 - Type        : 	JSON Object, Number
 - Return      : 	void
 
 
 ### sensorLog.sensorUpdate(sensor, sLevel)
+
+- Description
+  - called from set() function. call updateAllSensor form nodesCollection.js.
+  
 - Property    : 	sensor, sLevel
-- Description : 	called from set() function. call updateAllSensor form nodesCollection.js
 - Type        : 	JSON Object, Number
 - Return      : 	void
 
@@ -168,62 +204,96 @@ Return      : 	void
 
 
 ### nodes.findAllData()
-- Description : Find all document in nodes collection and save to 'AllData.txt'.
+
+- Description
+  - Find all document in nodes collection and save to 'AllData.txt'.
+  
 - Return      : void
 
 ### nodes.findAllConnected()
-- Description : Find name, category, connected from all document in node collection and save to 'findAllConnected.txt'.
+
+- Description
+  - Find name, category, connected from all document in node collection and save to 'findAllConnected.txt'.
+  
 - Return      : void
 
 ### nodes.findAllSensorData()
-- Description : Find name, flameSensor, smokeSensor, temperatureSensor from all document in node collection and save to 'findAllSensorData.txt'.
+
+- Description
+  - Find name, flameSensor, smokeSensor, temperatureSensor from all document in node collection and save to 'findAllSensorData.txt'.
+  
 - Return      : void
 
 ### nodes.findAllSeverityLevel()
-- Description : Find name, category, connected from all document in node collection and save to 'findAllConnected.txt'.
+- Description
+  - Find name, category, connected from all document in node collection and save to 'findAllConnected.txt'.
 - Return      : void
 
 ### nodes.updateflameSensor(nodeName, flameSensor)
-- Property    : nodeName - node name for update
-              flameSensor - flame sensor value
-- Description : Update flameSensor from document of which name equals 'nodeName' in node collection.
+
+- Description
+  - Update flameSensor from document of which name equals 'nodeName' in node collection.
+  
+- Property
+  - nodeName - node name for update
+  - flameSensor - flame sensor value
 - Type        : String, Number
 - Return      : void
 
 ### nodes.updatesmokeSensor(nodeName, smokeSensor)
-- Property    : nodeName - node name for update
-              smokeSensor - smoke sensor value
-- Description : Update smokeSensor from document of which name equals 'nodeName' in node collection.
+
+- Description
+  - Update smokeSensor from document of which name equals 'nodeName' in node collection.
+  
+- Property
+  - nodeName - node name for update
+  - smokeSensor - smoke sensor value
 - Type        : String, Number
 - Return      : void
 
 ### nodes.updatetemperatureSensor(nodeName, temperatureSensor)
-- Property    : nodeName - node name for update
-              temperatureSensor - temperature sensor value
-- Description : Update temperatureSensor from document of which name equals 'nodeName' in node collection.
+
+- Description
+  - Update temperatureSensor from document of which name equals 'nodeName' in node collection.
+  
+- Property
+  - nodeName - node name for update
+  - temperatureSensor - temperature sensor value
 - Type        : String, Number
 - Return      : void
 
 ### nodes.updateAllSensor(nodeName, flameSensor, smokeSensor, temperatureSensor, severityLevel)
-- Property    : nodeName - node name for update
-              flameSensor - flame sensor value
-              smokeSensor - smoke sensor value
-              temperatureSensor - temperture sensor value
-              severityLevel - severity level
-- Description : Update flameSensor, smokeSensor, temperatureSensor, severityLevel from document of which name equals 'nodeName' in node collection.
+
+- Description
+  - Update flameSensor, smokeSensor, temperatureSensor, severityLevel from document of which name equals 'nodeName' in node collection.
+  
+- Property
+  - nodeName - node name for update
+  - flameSensor - flame sensor value
+  - smokeSensor - smoke sensor value
+  - temperatureSensor - temperture sensor value
+  - severityLevel - severity level
 - Type        : String, Number, Number, Number, Number
 - Return      : void
 
 ### nodes.updateseverityLevel(nodeName, severityLevel)
-- Property    : nodeName - node name for update
-              severityLevel - severity level
-- Description : Update severityLevel from document of which name equals 'nodeName' in node collection.
+
+- Description
+  - Update severityLevel from document of which name equals 'nodeName' in node collection.
+  
+- Property
+  - nodeName - node name for update
+  - severityLevel - severity level
 - Type        : String, Number
 - Return      : void
 
 ### nodes.updateAllSeverityLevel(severityLevel)
-- Property    : severityLevel - severity level
-- Description : Update severityLevel from all document in node collection.
+
+- Description
+  - Update severityLevel from all document in node collection.
+  
+- Property
+  - severityLevel - severity level
 - Type        : Number
 - Return      : void
 
