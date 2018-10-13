@@ -48,19 +48,13 @@
                 $.ajax({
                     type:"POST",
                     url : "/startNode",
-                    data:{startNode : $("#startNode").val()},
-                    dataType:'text',
-                    success : function(data){
-                        console.log(data);
-                        console.log(typeof(data));
-                        console.log('상황해제');
-                    }
+                    data:{startNode : $("#startNode").val()}
                 })
             });
             
             // 센서값 받아오기
             var timeOutId = 0;
-                timeOutId = setTimeout(ajaxSensor(),1000);
+                timeOutId = setTimeㅐ(ajaxSensor(),1000);
 
             // 이미지 경로 받아오기
                 // ajaxImg();

@@ -145,32 +145,12 @@
 
     <script>
         $('.emergency').hide(); //비상상황 숨겨놓기
-        // $('#myAudio').get(0).pause();
 
         $(document).ready(function(){
 
         var startroom;   
 
-            $('#safe').click(function(){
-                $.ajax({
-                    type:"POST",
-                    url:"/safe",
-                    data:{safe:$(this).attr('id')},
-                    dataType:'text',
-                    success : function(data){
-                        $("#imgPath").empty();
-                        $(".emergency").hide();
-                        $('#myAudio').get(0).pause();
-                        $("#header").html('<h1>'+startroom+'</h1>').css("background-color: #ddd;");
-                        
-                    }
-                });
-            });
-
-            
-        
-            
-
+            // 현재 위치 설정
             $(function(){
                 $('.room').click(function(){
                     
@@ -180,8 +160,6 @@
                     }
                     console.log(roomId);
 
-                    
-                    
                     $.ajax({
                         type:"POST",
                         url : "/startNode",
@@ -214,8 +192,6 @@
                 });
             });
         
-            
-            
             // 센서값 받아오기
                 ajaxSensor();
 
@@ -266,10 +242,6 @@
 
                         $("#sensorInfo").append(template);
                         }
-                        
-
-                        
-                    
                     },
                     error : function(e){
                         alert("ERROR!")
@@ -318,7 +290,7 @@
             }, 8000);
             } // end of ajaxImg
 
-            
+            // 화재 알림이
             function emerge(){
                 $('.emergency').show();
                 console.log('이머지?');
@@ -330,7 +302,7 @@
                 $('.emergency').fadeToggle();
                 },500);
                         
-                }
+                } // end of emerge
                 
             function sound(){
                 $.ajax({
@@ -342,7 +314,25 @@
                      }
                        
                 });
-            }
+            } // end of sound
+
+            // 재난 종료
+            $('#safe').click(function(){
+                $.ajax({
+                    type:"POST",
+                    url:"/safe",
+                    data:{safe:$(this).attr('id')},
+                    dataType:'text',
+                    success : function(data){
+                        $("#imgPath").empty();
+                        $(".emergency").hide();
+                        $('#myAudio').get(0).pause();
+                        $("#header").html('<h1>'+startroom+'</h1>').css("background-color: #ddd;");
+                        
+                    }
+                });
+            }); // end of evacuation
+
 
         });
      </script>
