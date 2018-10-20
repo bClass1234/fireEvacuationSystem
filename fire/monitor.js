@@ -13,7 +13,7 @@ const { spawn } = require('child_process');
 var fire = require('./FireModule');
 // 센서로그 모듈
 var sensorLog = require('./sensorLog');
-
+   
 var evac = null;// 대피경로 초기화
 var sensorData = null; // 센서데이터 초기화
 
@@ -70,24 +70,24 @@ app.post('/sensor', (req,res) => {
 });
 
 // 위험도 감지
-function checkLevel(severityList){ 
+function checkLevel(severityList){
     for(var i = 0 ; i<severityList.length-1;i++){
-       
+
         if(severityList[i].severityLevel<5){ // 정상
             continue;
-        
+
         }else if(severityList[i].severityLevel<10){ // 주의
-            
+
         //다익스트라 알고리즘 시작
         }else if(severityList[i].severityLevel<15){ // 위험
             const bat = spawn('cmd.exe', ['/c', 'fire.bat pi3']);
             bat.on('exit', (code) => {
-                
+
               });
             flag = true;
             fire.removeNode(severityList[i].name);
         }
-        else{      
+        else{
             const bat = spawn('cmd.exe', ['/c', 'fire.bat pi3']);
             bat.on('exit', (code) => { });   // 재난
             flag = true;
@@ -113,15 +113,15 @@ app.use('/Img', function (req,res,next){
     for (var i = 0 ; i<evac.path.length-1; i++){
         myMethod(evac.path[i],evac.path[i+1]);
     }
-    
+
     function myMethod(start, end){
-        
+
         imgName = start+"-"+end;
-        
+
         iPath[i] = imgName;
     }
     var Path = {iPath};
-       
+
     res.json(Path);
     next();
 }
@@ -133,11 +133,11 @@ app.post('/Img',function(req,res){
         for (var i = 0 ; i<evac.path.length-1; i++){
             myMethod(evac.path[i],evac.path[i+1]);
         }
-    
+
         function myMethod(start, end){
             app.get('/'+start+"-"+end, function(req,res){
                 var imgName = "./img/pathImg/"+start+"-"+end+".png";
-                
+
                 template(imgName,res);
             })
         }
@@ -145,7 +145,7 @@ app.post('/Img',function(req,res){
 });
 
 // Img 파일 응답
-function template(imgName,res) { 
+function template(imgName,res) {
     fs.readFile(imgName, (err,data) => {
         res.writeHead(200, {'Content-Type' : 'image/png'});
         res.end(data);
@@ -160,7 +160,7 @@ app.listen(3000, function(){
     try{
         setTimeout(function() {
             var map = JSON.parse(fs.readFileSync('findAllConnected.txt','utf-8'));
-                fire.set(map); 
+                fire.set(map);
         },10000);
     // 맵데이터와 센서 매칭
         setInterval(function a(){
@@ -168,9 +168,9 @@ app.listen(3000, function(){
                 sensorData = fs.readFileSync(sensorLog.getAllSensorData(),'utf8');
                 sensorLog.getAllSeverityLevel();
                 sensorLog.getMapData();
-            
+
                 evac = checkLevel(b);
-        },5000); 
+        },5000);
 
     } catch(exception) {
         console.log(exception);
@@ -200,7 +200,7 @@ function isJson(json){
 
         return false;
     }catch(exception){
-        
+
         return true;
     }
 }
