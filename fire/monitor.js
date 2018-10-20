@@ -13,7 +13,7 @@ const { spawn } = require('child_process');
 var fire = require('./FireModule');
 // 센서로그 모듈
 var sensorLog = require('./sensorLog');
-   
+
 var evac = null;// 대피경로 초기화
 var sensorData = null; // 센서데이터 초기화
 
