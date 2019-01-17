@@ -37,6 +37,6 @@ Fire Evacustion System is for guide evacuation path to people in building.
   - Leader : Jihoon Jeong jihoonys82@gmail.com 
   - Members
     - Soojeong Kwon ksj71816@gmail.com  
-    - Donghyun Kim dhkim_9@naver.com
+    - Donghyun Kim dhkim9294@gmail.com
     - YongJae Kim deyejoper@gmail.com
     
